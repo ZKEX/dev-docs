@@ -29,7 +29,7 @@ Refer to [README](https://github.com/ZKEX/market-maker-signer-service/blob/maste
 
 **Please ensure the private key of the wallet address is securely backed up, to avoid the potential loss of access to your assets in your wallet.**
 
-- Submit an application to the ZKEX team to obtain your market maker  ‘api-key’ and ‘api-secret’.
+- Submit an application to the ZKEX team to obtain your market maker  `api-key` and `api-secret`.
 
 ### 4. How to configure the `conf.json` file
 
@@ -37,13 +37,13 @@ Referring to [README](https://github.com/ZKEX/market-maker-signer-service/blob/m
 
 - The encrypted result is the value of the `encryptedEthPrivKey` field in `conf.json'
 ```
-$ ./market-maker-signer-service -encrypt “account private key”    # Return(Enter)
+$ ./market-maker-signer-service -encrypt [account private key]    # Return(Enter)
 Enter Security Password: # Enter password and Return (Enter)
 ```
 
 - The encrypted result is the value of the `encryptedApiSecret` field in `conf.json`
 ```
-$ ./market-maker-signer-service -encrypt api-secret    # Return(Enter)
+$ ./market-maker-signer-service -encrypt [api-secret]    # Return(Enter)
 Enter Security Password: # Enter password and Return (Enter)
 ```
 
