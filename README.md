@@ -56,7 +56,7 @@ Users connected through market-maker-apis
 * step1: read [FAQ docs](https://github.com/ZKEX/dev-docs/tree/main/faq)
 * step2: read [market make api docs](https://github.com/ZKEX/dev-docs/tree/main/market-maker-apis#getting-started)
 * step3: apply to ZKEX Team for `api key` & `api secret` (Send your basic infomation to dev@zkex.com)
-* step4: clone [market-maker-signer-service](https://github.com/ZKEX/market-maker-signer-service) (This is a private repo)
+* step4: clone [market-maker-signer-service](https://github.com/ZKEX/market-maker-signer-service) (This is a private repo, and tell us your github account)
 * step5: initial your account. (deposit and active)
 * step6: get token from faucet. (if testnet)
 
