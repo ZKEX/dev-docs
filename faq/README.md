@@ -21,7 +21,11 @@ Refer to [README] to compile and generate the executable `market-maker-signer-se
 
 ### 3. Deployment
 
-- Open the ZKEX dApp in your browser, then using metamask or another wallet, connect wallet, `open your account` and `deposit`, make sure your account is active on Layer2.
+- Get [market maker tools](https://github.com/ZKEX/zkex-mm-tools)
+
+  - Register zkex account
+  - Active layer2 account
+  - Get testnet token from faucet
 
 **Please ensure the private key of the wallet address is securely backed up, to avoid the potential loss of access to your assets in your wallet.**
 
