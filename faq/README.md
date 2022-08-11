@@ -17,7 +17,7 @@
 
 ### 2. Compile
 
-Refer to [README] to compile and generate the executable `market-maker-signer-service` (https://github.com/ZKEX/market-maker-signer-service/blob/master/README.md)
+Refer to [README](https://github.com/ZKEX/market-maker-signer-service/blob/master/README.md) to compile and generate the executable `market-maker-signer-service` 
 
 ### 3. Deployment
 
