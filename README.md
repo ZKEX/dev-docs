@@ -45,7 +45,7 @@ Users connected through market-maker-apis
 | **Is free permission**                        	| Yes                                      	| No, apply to ZKEX Team                                                                                                                               	|
 | **The way of place orders**                   	| Sign first, and submit to ZKEX Matching. 	| Place an order without signature. <br>After the match is successful, <br>zkex matching will send a request to <br>market maker to get the signature. 	|
 | **Limit on the number of pending orders**     	| Less than or equal to `16`                 	| Unlimit                                                                                                                                              	|
-| **Order frequency**                           	| less than `3` per second                   	| less than `30` per second                                                                                                                              	|
+| **Order frequency**                           	| less than `1` per second                   	| less than `3` per second                                                                                                                              	|
 | **Whether there is a partially filled order** 	| Yes.                                     	| No. Because the market maker's order is <br>first matched and then signed, <br>so there is no partial filled order.                                  	|
 
 ## ZKEX Matching Engine structure
