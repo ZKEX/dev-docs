@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import binascii
 import requests
 import time
 import urllib
@@ -35,7 +36,7 @@ def get_jwt_token():
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(api_secret.encode("ascii"),
+    signature = hmac.new(binascii.unhexlify(api_secret),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -62,7 +63,7 @@ def place_order(product_id, side, time_in_force, price, size):
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(api_secret.encode("ascii"),
+    signature = hmac.new(binascii.unhexlify(api_secret),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -84,7 +85,7 @@ def cancel_order(product_id, order_id):
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(api_secret.encode("ascii"),
+    signature = hmac.new(binascii.unhexlify(api_secret),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -104,7 +105,7 @@ def cancel_orders(product_id):
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(api_secret.encode("ascii"),
+    signature = hmac.new(binascii.unhexlify(api_secret),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -127,7 +128,7 @@ def list_orders(product_id, start_time, end_time, limit):
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(api_secret.encode("ascii"),
+    signature = hmac.new(binascii.unhexlify(api_secret),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -148,7 +149,7 @@ def get_order(product_id, order_id):
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(api_secret.encode("ascii"),
+    signature = hmac.new(binascii.unhexlify(api_secret),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -169,7 +170,7 @@ def list_open_orders(product_id, limit):
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(api_secret.encode("ascii"),
+    signature = hmac.new(binascii.unhexlify(api_secret),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -188,7 +189,7 @@ def accounts_info():
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(api_secret.encode("ascii"),
+    signature = hmac.new(binascii.unhexlify(api_secret),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
