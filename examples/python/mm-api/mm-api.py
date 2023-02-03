@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import binascii
 import requests
 import time
 import urllib
@@ -36,7 +35,7 @@ def get_jwt_token():
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(binascii.unhexlify(api_secret),
+    signature = hmac.new(api_secret.encode("ascii"),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -46,7 +45,27 @@ def get_jwt_token():
     print(resp.text)
 
 
-def place_order(product_id, side, time_in_force, price, size):
+def get_slot():
+    args = {
+        "timestamp": int(time.time())
+    }
+    headers = {
+        "X-MBX-APIKEY": api_key
+    }
+
+    args_str = urllib.parse.urlencode(args)
+    signature = hmac.new(api_secret.encode("ascii"),
+                         msg=args_str.encode("ascii"),
+                         digestmod=hashlib.sha256) \
+        .hexdigest().lower()
+    path = "/mm/api/slot?%s&signature=%s" % (args_str, signature)
+    url = "%s%s" % (domain_url, path)
+    resp = requests.get(url, headers=headers)
+    print(resp.text)
+
+
+def place_order(product_id, side, time_in_force, price, size,
+                taker_fee_ratio, maker_fee_ratio, slot, nonce, order_signature_hex):
     assert side in ("BUY", "SELL")
     assert time_in_force in ("GTC", "IOC")
     args = {
@@ -56,14 +75,19 @@ def place_order(product_id, side, time_in_force, price, size):
         "type": "LIMIT",
         "timeInForce": time_in_force,
         "price": int(price * (10 ** 18)),
-        "quantity": int(size * (10 ** 18))
+        "quantity": int(size * (10 ** 18)),
+        "takerFeeRatio": taker_fee_ratio,
+        "makerFeeRatio": maker_fee_ratio,
+        "slot": slot,
+        "nonce": nonce,
+        "orderSignature": order_signature_hex[2:] if order_signature_hex[0:2] == "0x" else order_signature_hex
     }
     headers = {
         "X-MBX-APIKEY": api_key
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(binascii.unhexlify(api_secret),
+    signature = hmac.new(api_secret.encode("ascii"),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -85,7 +109,7 @@ def cancel_order(product_id, order_id):
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(binascii.unhexlify(api_secret),
+    signature = hmac.new(api_secret.encode("ascii"),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -105,7 +129,7 @@ def cancel_orders(product_id):
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(binascii.unhexlify(api_secret),
+    signature = hmac.new(api_secret.encode("ascii"),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -128,7 +152,7 @@ def list_orders(product_id, start_time, end_time, limit):
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(binascii.unhexlify(api_secret),
+    signature = hmac.new(api_secret.encode("ascii"),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -149,7 +173,7 @@ def get_order(product_id, order_id):
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(binascii.unhexlify(api_secret),
+    signature = hmac.new(api_secret.encode("ascii"),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -170,7 +194,7 @@ def list_open_orders(product_id, limit):
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(binascii.unhexlify(api_secret),
+    signature = hmac.new(api_secret.encode("ascii"),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -189,7 +213,7 @@ def accounts_info():
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(binascii.unhexlify(api_secret),
+    signature = hmac.new(api_secret.encode("ascii"),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -203,7 +227,9 @@ if __name__ == "__main__":
     server_info()
     products_info()
     get_jwt_token()
-    order_id = place_order("JOE-USD", "BUY", "GTC", 300.0, 1.0)
+    get_slot()
+    order_id = place_order("JOE-USD", "BUY", "GTC", 300.0, 1.0, 10, 5, 3, 100,
+                           "08df5d62219ec5c77d75d178e553371d10b166f0288e61e0186818de459502093d135821e6100f4fb8a4fda5ff17bef776a9dc855dd5b68809ab77e052c20902")
     cancel_order("JOE-USD", order_id)
     # cancel_orders("JOE-USD")
     list_orders("JOE-USD", 0, int(time.time()), 10)
