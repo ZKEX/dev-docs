@@ -1,3 +1,4 @@
+# !!! This doc is deprecated!
 
 ## What is Market Maker Signature Service? Why is it important? 
 
