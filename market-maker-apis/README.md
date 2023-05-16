@@ -62,6 +62,10 @@
   - Http Method : `GET`
   - Http Path : `/mm/api/server`
   - Response : 
+  
+    <details>
+    <summary>data</summary>
+
     ```json
     {
       "timeNow": 1650958799 
@@ -136,6 +140,10 @@
     | count       	|    int    	|       YES      	| 1                   	|                         |
    
   * Response :
+  
+    <details>
+    <summary>data</summary>  
+  
     ```
     [
       {
@@ -179,6 +187,9 @@
   
   * Response
   
+    <details>
+    <summary>data</summary>     
+      
     ```json
     {
       "Id": 39,
@@ -468,6 +479,9 @@
 
 
   * Response
+
+    <details>
+    <summary>data</summary>
       
     ```json
     [
@@ -488,10 +502,6 @@
     ```
 
 ------
-
-## REST Interface (Like binance api)
-
-### TODO
 
 ## Websocket Subscribe & Unsubscribe 
 
