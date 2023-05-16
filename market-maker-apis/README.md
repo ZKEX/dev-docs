@@ -174,15 +174,15 @@
     | side        	|   string   	|       YES      	| SELL                 	| SELL/BUY               	|
     | type        	|   string   	|       YES      	| LIMIT                	| only support LIMIT now 	|
     | timestamp   	|    long    	|       YES      	| 1654060757           	| unix timestamp         	|
-    | timeInForce 	|   string   	|       YES      	| GTC                  	| GTC/IOC                	|
+    | timeInForce 	|   string   	|       YES      	| GTC                  	| GTC/IOC/GTX/FOK        	|
     | quantity    	|   string   	|       YES      	| 20000000000000000000 	| decimals=18            	|
     | price       	|   string   	|       YES      	| 5000000000000000000  	| decimals=18            	|
     | takerFeeRatio |   int   	  |       YES      	| 10 	                  | decimals=4            	|
     | makerFeeRatio |   int   	  |       YES      	| 5 	                  | decimals=4            	|
     | slot          |   int   	  |       YES      	| 10 	                  |            	|
     | nonce         |   int   	  |       YES      	| 310 	                |            	|
-    | userPubkey    |   string   	|       YES      	| 0dd4f603531bd78bbecd005d9e7cc62a794dcfadceffe03e269fbb6b72e9c724 	                  |            	|
-    | orderSignature|   string    |       YES      	| 17039d98f87640c452ec4ab6bb91d2044a97ff516a920cd09bddacd774175a28d3836dc0d84c31cc862a1c1099f430adb3f7826bf97a086eba59b6ced3e4ef04 	                  |            	|
+    | userPubkey    |   string   	|       YES      	| 0dd4f603531bd78bbecd005d9e7cc62a794dcfadceffe03e269fbb6b72e9c724  |  zk-layer2 pubkey  	|
+    | orderSignature|   string    |       YES      	| 17039d98f87640c452ec4ab6bb91d2044a97ff516a920cd09bddacd774175a28d3836dc0d84c31cc862a1c1099f430adb3f7826bf97a086eba59b6ced3e4ef04 	|  zk-layer2 signature for order|
 
   
   * Response
