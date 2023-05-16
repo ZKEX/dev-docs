@@ -6,6 +6,7 @@
   - [Get the server time of ZKEX](#get-the-server-time-of-zkex)
   - [Get all trading pairs supported by ZKEX](#get-all-trading-pairs-supported-by-zkex)
   - [Get Market Maker's JWT-Token (use to subscribe Websocket)](#mmregister)
+  * [Apply Order Slots Batchly](#applyorderslots)
   * [New Order](#mmplaceorder)
   * [Cancel Order](#mmcancelorder)
   * [Cancel all Open Orders on a Symbol](#mmcancelorders)
@@ -118,6 +119,33 @@
     eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHgzNDk4ZjQ1NjY0NTI3MGVlMDAzNDQxZGY4MmM3MThiNTZjMGU2NjY2IiwiZXhwaXJlZEF0IjoxNjU0MDU1MDMzLCJpZCI6NDksInB1YmtleSI6IjBkZDRmNjAzNTMxYmQ3OGJiZWNkMDA1ZDllN2NjNjJhNzk0ZGNmYWRjZWZmZTAzZTI2OWZiYjZiNzJlOWM3MjQifQ.2S1wt6KxfJU8kxvESbrdUW1jxYyqxXlcIhL9DwtW3Yc
     ```
 
+ 
+---
+
+<span id="applyorderslots"></span>
+* Apply Order Slots Batchly
+  * HTTP Method: `GET`
+  * HTTP Path: `/mm/api/slot`  (HMAC SHA256)
+  * HTTP Header:
+    `X-MBX-APIKEY` :  `api key`
+  * Parameters:
+  
+    | **_Name_**  	| **_Type_** 	| **_Required_** 	| **_Example_**        	| **_Description_**      	|
+    |-------------	|:----------:	|:--------------:	|----------------------	|------------------------	|
+    | timestamp   	|    long    	|       YES      	| 1653983486           	| unix timestamp         	|
+    | count       	|    int    	|       YES      	| 1                   	| unix timestamp         	|
+   
+  * Response :
+    ```
+    [
+      {
+        "slot":  10,             
+        "nonce": 100
+      }
+    ]
+    ```
+
+
 ---
 
 
@@ -141,6 +169,12 @@
     | timeInForce 	|   string   	|       YES      	| GTC                  	| GTC/IOC                	|
     | quantity    	|   string   	|       YES      	| 20000000000000000000 	| decimals=18            	|
     | price       	|   string   	|       YES      	| 5000000000000000000  	| decimals=18            	|
+    | takerFeeRatio |   int   	  |       YES      	| 10 	                  | decimals=4            	|
+    | makerFeeRatio |   int   	  |       YES      	| 5 	                  | decimals=4            	|
+    | slot          |   int   	  |       YES      	| 10 	                  |            	|
+    | nonce         |   int   	  |       YES      	| 310 	                |            	|
+    | userPubkey    |   string   	|       YES      	| 0dd4f603531bd78bbecd005d9e7cc62a794dcfadceffe03e269fbb6b72e9c724 	                  |            	|
+    | orderSignature|   string    |       YES      	| 17039d98f87640c452ec4ab6bb91d2044a97ff516a920cd09bddacd774175a28d3836dc0d84c31cc862a1c1099f430adb3f7826bf97a086eba59b6ced3e4ef04 	                  |            	|
 
   
   * Response
