@@ -2,10 +2,11 @@
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Maintain trading pairs information](#maintain-trading-pairs-information)
-- [REST Interface (Recommend)](#)
+  - [REST Interface (Recommend)](#)
   - [Get the server time of ZKEX](#get-the-server-time-of-zkex)
   - [Get all trading pairs supported by ZKEX](#get-all-trading-pairs-supported-by-zkex)
   - [Get Market Maker's JWT-Token (use to subscribe Websocket)](#mmregister)
+  - [Get Market Maker's user info](#mmself)
   * [Apply Order Slots Batchly](#applyorderslots)
   * [New Order](#mmplaceorder)
   * [Cancel Order](#mmcancelorder)
@@ -123,6 +124,37 @@
     eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHgzNDk4ZjQ1NjY0NTI3MGVlMDAzNDQxZGY4MmM3MThiNTZjMGU2NjY2IiwiZXhwaXJlZEF0IjoxNjU0MDU1MDMzLCJpZCI6NDksInB1YmtleSI6IjBkZDRmNjAzNTMxYmQ3OGJiZWNkMDA1ZDllN2NjNjJhNzk0ZGNmYWRjZWZmZTAzZTI2OWZiYjZiNzJlOWM3MjQifQ.2S1wt6KxfJU8kxvESbrdUW1jxYyqxXlcIhL9DwtW3Yc
     ```
 
+  ---
+
+<span id="mmself"></span>
+* Get Market Maker's user info
+  * HTTP Method: `GET`
+  * HTTP Path: `/mm/api/self`  (HMAC SHA256)
+  * HTTP Header:
+    `X-MBX-APIKEY` :  `api key`
+  * Parameters:
+  
+    | **_Name_**  	| **_Type_** 	| **_Required_** 	| **_Example_**        	| **_Description_**      	|
+    |-------------	|:----------:	|:--------------:	|----------------------	|------------------------	|
+    | timestamp   	|    long    	|       YES      	| 1653983486           	| unix timestamp         	|
+   
+  * Response :
+  
+    <details>
+    <summary>data</summary>
+  
+    ```
+    {
+        "id": 39,
+        "address": "0x9f44be256f9b0797dc26bfeed70e57a4ac4258c6",
+        "initHeight": 0,     
+        "l2active": 1,            // 0: actived in layer2   1：not actived in layer2 
+        "l2userId": 67,           // layer2 account id
+        "userLevel": "v1",        // fee level
+        "verifyType": 0,          // 0: common mode   1: unipass mode
+        "chainId": 0              // layer2 chain id (only used in unipass mode)
+    }
+    ```
  
 ---
 
