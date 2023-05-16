@@ -133,7 +133,7 @@
     | **_Name_**  	| **_Type_** 	| **_Required_** 	| **_Example_**        	| **_Description_**      	|
     |-------------	|:----------:	|:--------------:	|----------------------	|------------------------	|
     | timestamp   	|    long    	|       YES      	| 1653983486           	| unix timestamp         	|
-    | count       	|    int    	|       YES      	| 1                   	| unix timestamp         	|
+    | count       	|    int    	|       YES      	| 1                   	|                         |
    
   * Response :
     ```
