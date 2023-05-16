@@ -6,8 +6,12 @@ import time
 import urllib
 import hashlib
 import hmac
+from web3 import Account
+from zklink_sdk import ZkLinkLibrary, ZkLinkSigner
+from zklink_sdk.types import Order, Token
 
 domain_url = "http://domain_url"
+eth_priv_key = ""
 api_key = "your api key"
 api_secret = "your api secret"
 
@@ -35,7 +39,7 @@ def get_jwt_token():
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(api_secret.encode("ascii"),
+    signature = hmac.new(bytes.fromhex(api_secret),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -45,7 +49,7 @@ def get_jwt_token():
     print(resp.text)
 
 
-def get_slot():
+def get_self_info():
     args = {
         "timestamp": int(time.time())
     }
@@ -54,7 +58,27 @@ def get_slot():
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(api_secret.encode("ascii"),
+    signature = hmac.new(bytes.fromhex(api_secret),
+                         msg=args_str.encode("ascii"),
+                         digestmod=hashlib.sha256) \
+        .hexdigest().lower()
+    path = "/mm/api/self?%s&signature=%s" % (args_str, signature)
+    url = "%s%s" % (domain_url, path)
+    resp = requests.get(url, headers=headers)
+    print(resp.text)
+
+
+def get_slot_batchly(cnt):
+    args = {
+        "timestamp": int(time.time()),
+        "count": cnt,
+    }
+    headers = {
+        "X-MBX-APIKEY": api_key
+    }
+
+    args_str = urllib.parse.urlencode(args)
+    signature = hmac.new(bytes.fromhex(api_secret),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -62,12 +86,33 @@ def get_slot():
     url = "%s%s" % (domain_url, path)
     resp = requests.get(url, headers=headers)
     print(resp.text)
+    return resp.json()
 
 
 def place_order(product_id, side, time_in_force, price, size,
-                taker_fee_ratio, maker_fee_ratio, slot, nonce, order_signature_hex):
+                taker_fee_ratio, maker_fee_ratio, slot, nonce):
     assert side in ("BUY", "SELL")
-    assert time_in_force in ("GTC", "IOC")
+    assert time_in_force in ("GTC", "IOC", "FOK", "GTX")
+
+    account = Account.from_key(eth_priv_key)
+    zksigner = ZkLinkSigner.from_account(account, ZkLinkLibrary())
+    pubkey_hex = zksigner.public_key.hex()
+
+    order = Order(
+        account_id=7,     # from /mm/api/self
+        price=int(price * (10 ** 18)),
+        amount=int(size * (10 ** 18)),
+        sub_account_id=1,
+        slot=slot,
+        nonce=nonce,
+        base_token=Token(id=141, chain_id=0, address='', symbol='', decimals=18),   # from /mm/api/products
+        quote_token=Token(id=1, chain_id=0, address='', symbol='', decimals=18),    # from /mm/api/products
+        is_sell=0 if side == "BUY" else 1,
+        taker_fee_ratio=taker_fee_ratio,
+        maker_fee_ratio=maker_fee_ratio
+    )
+
+    order_signature_hex = zksigner.sign_order(order).signature
     args = {
         "timestamp": int(time.time()),
         "symbol": product_id,
@@ -80,6 +125,7 @@ def place_order(product_id, side, time_in_force, price, size,
         "makerFeeRatio": maker_fee_ratio,
         "slot": slot,
         "nonce": nonce,
+        "userPubkey": pubkey_hex[2:] if pubkey_hex[0:2] == "0x" else pubkey_hex,
         "orderSignature": order_signature_hex[2:] if order_signature_hex[0:2] == "0x" else order_signature_hex
     }
     headers = {
@@ -87,7 +133,7 @@ def place_order(product_id, side, time_in_force, price, size,
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(api_secret.encode("ascii"),
+    signature = hmac.new(bytes.fromhex(api_secret),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -109,7 +155,7 @@ def cancel_order(product_id, order_id):
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(api_secret.encode("ascii"),
+    signature = hmac.new(bytes.fromhex(api_secret),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -129,7 +175,7 @@ def cancel_orders(product_id):
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(api_secret.encode("ascii"),
+    signature = hmac.new(bytes.fromhex(api_secret),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -152,7 +198,7 @@ def list_orders(product_id, start_time, end_time, limit):
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(api_secret.encode("ascii"),
+    signature = hmac.new(bytes.fromhex(api_secret),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -173,7 +219,7 @@ def get_order(product_id, order_id):
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(api_secret.encode("ascii"),
+    signature = hmac.new(bytes.fromhex(api_secret),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -194,7 +240,7 @@ def list_open_orders(product_id, limit):
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(api_secret.encode("ascii"),
+    signature = hmac.new(bytes.fromhex(api_secret),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -213,7 +259,7 @@ def accounts_info():
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(api_secret.encode("ascii"),
+    signature = hmac.new(bytes.fromhex(api_secret),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
@@ -227,12 +273,11 @@ if __name__ == "__main__":
     server_info()
     products_info()
     get_jwt_token()
-    get_slot()
-    order_id = place_order("JOE-USD", "BUY", "GTC", 300.0, 1.0, 10, 5, 3, 100,
-                           "08df5d62219ec5c77d75d178e553371d10b166f0288e61e0186818de459502093d135821e6100f4fb8a4fda5ff17bef776a9dc855dd5b68809ab77e052c20902")
-    cancel_order("JOE-USD", order_id)
-    # cancel_orders("JOE-USD")
-    list_orders("JOE-USD", 0, int(time.time()), 10)
-    get_order("JOE-USD", order_id)
-    list_open_orders("JOE-USD", 10)
+    get_self_info()
+    slots = get_slot_batchly(5)
+    order_id = place_order("wETH-USD", "BUY", "GTC", 300.0, 1.0, 10, 5, slots[0]["slot"], slots[0]["nonce"])
+    cancel_order("wETH-USD", order_id)
+    list_orders("wETH-USD", 0, int(time.time()), 10)
+    get_order("wETH-USD", order_id)
+    list_open_orders("wETH-USD", 10)
     accounts_info()
