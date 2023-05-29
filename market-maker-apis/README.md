@@ -2,10 +2,11 @@
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Maintain trading pairs information](#maintain-trading-pairs-information)
-- [REST Interface (Recommend)](#)
+  - [REST Interface (Recommend)](#)
   - [Get the server time of ZKEX](#get-the-server-time-of-zkex)
   - [Get all trading pairs supported by ZKEX](#get-all-trading-pairs-supported-by-zkex)
   - [Get Market Maker's JWT-Token (use to subscribe Websocket)](#mmregister)
+  - [Get Market Maker's user info](#mmself)
   * [Apply Order Slots Batchly](#applyorderslots)
   * [New Order](#mmplaceorder)
   * [Cancel Order](#mmcancelorder)
@@ -123,6 +124,37 @@
     eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHgzNDk4ZjQ1NjY0NTI3MGVlMDAzNDQxZGY4MmM3MThiNTZjMGU2NjY2IiwiZXhwaXJlZEF0IjoxNjU0MDU1MDMzLCJpZCI6NDksInB1YmtleSI6IjBkZDRmNjAzNTMxYmQ3OGJiZWNkMDA1ZDllN2NjNjJhNzk0ZGNmYWRjZWZmZTAzZTI2OWZiYjZiNzJlOWM3MjQifQ.2S1wt6KxfJU8kxvESbrdUW1jxYyqxXlcIhL9DwtW3Yc
     ```
 
+  ---
+
+<span id="mmself"></span>
+* Get Market Maker's user info
+  * HTTP Method: `GET`
+  * HTTP Path: `/mm/api/self`  (HMAC SHA256)
+  * HTTP Header:
+    `X-MBX-APIKEY` :  `api key`
+  * Parameters:
+  
+    | **_Name_**  	| **_Type_** 	| **_Required_** 	| **_Example_**        	| **_Description_**      	|
+    |-------------	|:----------:	|:--------------:	|----------------------	|------------------------	|
+    | timestamp   	|    long    	|       YES      	| 1653983486           	| unix timestamp         	|
+   
+  * Response :
+  
+    <details>
+    <summary>data</summary>
+  
+    ```
+    {
+        "id": 39,
+        "address": "0x9f44be256f9b0797dc26bfeed70e57a4ac4258c6",
+        "initHeight": 0,     
+        "l2active": 1,            // 0: actived in layer2   1：not actived in layer2 
+        "l2userId": 67,           // layer2 account id
+        "userLevel": "v1",        // fee level
+        "verifyType": 0,          // 0: common mode   1: unipass mode
+        "chainId": 0              // layer2 chain id (only used in unipass mode)
+    }
+    ```
  
 ---
 
@@ -208,6 +240,8 @@
       "Side": "buy",
       "TimeInForce": "GTC",     
       "Status": "new",
+      "L2Status": "new",                # none: init status          confirming:The order is fully filled, but not confirmed by layer2      filled:The order is fully filled, and confirmed by layer2      cancelled:The                                               order has been cancelled, and cancelled in layer2
+      "PreSettled": false,
       "Settled": false
     }   
     ```
@@ -283,6 +317,7 @@
         "total": 1000,
         "orders": [{
           "id": "28",          # order id
+          "userId": "28",      # user id
           "price": "9000000000000000",         
           "size": "2500000000",           
           "funds": "19997",                # price*size/pow(10,18)
@@ -294,6 +329,8 @@
           "filledSize": "200000000",                 # The actual transaction quantity of the order
           "executedValue": "1800000",              # The actual transaction value of the order
           "status": "open",                   #order status   `new`, `open`,  `filled`, `cancelled`, `cancelling`
+          "l2Status": "none",
+          "preSettled": false,
           "settled": false,
           "chanFrom": 0,             #     0 : user order       1 : market maker order
           "trades": [{
@@ -305,7 +342,10 @@
            "makerOrderId": 4,
            "size": "100000",
            "side": "buy",
-           "status": 3    # 0:not sent to layer2      1:sent to layer2      2:layer2 success    3:layer2 fail      9:matching fail(not sent to layer2)
+           "status": 3,    # 0:not sent to layer2      1:sent to layer2      2:layer2 success    3:layer2 fail      9:matching fail(not sent to layer2)
+           "productId": "UNI-USDT",
+           "funds": "900",
+           "txHash": "0x40acae664609d1115f5ab32d9f3c0fedd7609daa6a4a5515333f583fba10f545"
           }, {
            "id": 2,
            "time": 1650958799,
@@ -315,7 +355,10 @@
            "makerOrderId": 4, 
            "size": "100000",
            "side": "buy",
-           "status": 3
+           "status": 3,
+           "productId": "UNI-USDT",
+           "funds": "900",
+           "txHash": "0x40acae664609d1115f5ab32d9f3c0fedd7609daa6a4a5515333f583fba10f545"
           }],
           "cancelFill": {
            "id": 1,
@@ -326,6 +369,7 @@
           "isFullFill": true,   # If isFullFill is true, it means that the order has actually been filled completely. But `trade.status` may not be `filled` , but it will eventually become filled.
          }, {
           "id": "27",
+          "userId": "28",      # user id
           "price": "8000000000000000",
           "size": "2500000000",
           "funds": "0",
@@ -337,6 +381,8 @@
           "filledSize": "0",
           "executedValue": "0",
           "status": "cancelled",
+          "l2Status": "none",
+          "preSettled": false,
           "settled": false,
           "trades": [{
            "id": 1,
@@ -347,7 +393,10 @@
            "makerOrderId": 4,
            "size": "100000",
            "side": "buy",
-           "status": 3 
+           "status": 3,
+           "productId": "UNI-USDT",
+           "funds": "900",
+           "txHash": "0x40acae664609d1115f5ab32d9f3c0fedd7609daa6a4a5515333f583fba10f545"
           }, {
            "id": 2,
            "time": 1650958799,
@@ -357,7 +406,10 @@
            "makerOrderId": 4,
            "size": "100000",
            "side": "buy",
-           "status": 3
+           "status": 3,
+           "productId": "UNI-USDT",
+           "funds": "900",
+           "txHash": "0x40acae664609d1115f5ab32d9f3c0fedd7609daa6a4a5515333f583fba10f545"
           }]
           "cancelFill": {
            "id": 1,
@@ -397,7 +449,8 @@
   
       ```json
       {
-          "id": "755",     
+          "id": "755",    
+          "userId": "28",
           "price": "9000000000000000",            
           "size": "2500000000",                
           "funds": "19997",              
@@ -408,7 +461,9 @@
           "fillFees": "0",                 
           "filledSize": "200000000",                
           "executedValue": "1800000",             
-          "status": "open",              
+          "status": "open",  
+          "l2Status": "none",
+          "preSettled": false,
           "settled": false,
           "chanFrom": 0,              
           "trades": [{
@@ -420,7 +475,10 @@
            "makerOrderId": 4,
            "size": "100000",
            "side": "buy",
-           "status": 3  
+           "status": 3,
+           "productId": "UNI-USDT",
+           "funds": "900",
+           "txHash": "0x40acae664609d1115f5ab32d9f3c0fedd7609daa6a4a5515333f583fba10f545"  
           }, {
            "id": 2,
            "time": 1650958799,
@@ -430,7 +488,10 @@
            "makerOrderId": 4, 
            "size": "100000",
            "side": "buy",
-           "status": 3
+           "status": 3,
+           "productId": "UNI-USDT",
+           "funds": "900",
+           "txHash": "0x40acae664609d1115f5ab32d9f3c0fedd7609daa6a4a5515333f583fba10f545"
           }],
           "cancelFill": {
            "id": 1,
@@ -488,17 +549,15 @@
       {
        "id": "1",
        "currency": "USDC",
-       "currencyIcon": "https://raw.githubusercontent.com/Uniswap/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png",
        "available": "952011220000",
        "hold": "1030410000000"
       }, {
        "id": "2",
        "currency": "USDT",
-       "currencyIcon": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png",
        "available": "4444030410000000",
        "hold": "766652011220000"
       }
-    ]    
+    ]
     ```
 
 ------
