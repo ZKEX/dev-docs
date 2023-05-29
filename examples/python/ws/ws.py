@@ -122,7 +122,7 @@ def get_jwt_token():
     }
 
     args_str = urllib.parse.urlencode(args)
-    signature = hmac.new(api_secret.encode("ascii"),
+    signature = hmac.new(bytes.fromhex(api_secret),
                          msg=args_str.encode("ascii"),
                          digestmod=hashlib.sha256) \
         .hexdigest().lower()
