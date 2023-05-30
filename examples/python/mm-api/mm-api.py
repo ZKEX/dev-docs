@@ -21,6 +21,7 @@ def server_info():
     url = "%s%s" % (domain_url, path)
     resp = requests.get(url)
     print(resp.json())
+    return resp.json()
 
 
 def products_info():
@@ -28,6 +29,7 @@ def products_info():
     url = "%s%s" % (domain_url, path)
     resp = requests.get(url)
     print(resp.json())
+    return resp.json()
 
 
 def get_jwt_token():
@@ -47,6 +49,7 @@ def get_jwt_token():
     url = "%s%s" % (domain_url, path)
     resp = requests.get(url, headers=headers)
     print(resp.text)
+    return resp.text
 
 
 def get_self_info():
@@ -65,7 +68,8 @@ def get_self_info():
     path = "/mm/api/self?%s&signature=%s" % (args_str, signature)
     url = "%s%s" % (domain_url, path)
     resp = requests.get(url, headers=headers)
-    print(resp.text)
+    print(resp.json())
+    return resp.json()
 
 
 def get_slot_batchly(cnt):
@@ -85,11 +89,11 @@ def get_slot_batchly(cnt):
     path = "/mm/api/slot?%s&signature=%s" % (args_str, signature)
     url = "%s%s" % (domain_url, path)
     resp = requests.get(url, headers=headers)
-    print(resp.text)
+    print(resp.json())
     return resp.json()
 
 
-def place_order(product_id, side, time_in_force, price, size,
+def place_order(acct_id, product, side, time_in_force, price, size,
                 taker_fee_ratio, maker_fee_ratio, slot, nonce):
     assert side in ("BUY", "SELL")
     assert time_in_force in ("GTC", "IOC", "FOK", "GTX")
@@ -99,14 +103,16 @@ def place_order(product_id, side, time_in_force, price, size,
     pubkey_hex = zksigner.public_key.hex()
 
     order = Order(
-        account_id=7,     # from /mm/api/self
+        account_id=acct_id,  # from /mm/api/self
         price=int(price * (10 ** 18)),
         amount=int(size * (10 ** 18)),
         sub_account_id=1,
         slot=slot,
         nonce=nonce,
-        base_token=Token(id=141, chain_id=0, address='', symbol='', decimals=18),   # from /mm/api/products
-        quote_token=Token(id=1, chain_id=0, address='', symbol='', decimals=18),    # from /mm/api/products
+        base_token=Token(id=product.get('l2baseCurrencyId'), chain_id=0, address='', symbol='', decimals=18),
+        # from /mm/api/products
+        quote_token=Token(id=product.get('l2quoteCurrencyId'), chain_id=0, address='', symbol='', decimals=18),
+        # from /mm/api/products
         is_sell=0 if side == "BUY" else 1,
         taker_fee_ratio=taker_fee_ratio,
         maker_fee_ratio=maker_fee_ratio
@@ -115,7 +121,7 @@ def place_order(product_id, side, time_in_force, price, size,
     order_signature_hex = zksigner.sign_order(order).signature
     args = {
         "timestamp": int(time.time()),
-        "symbol": product_id,
+        "symbol": product.get('id'),
         "side": side,
         "type": "LIMIT",
         "timeInForce": time_in_force,
@@ -140,8 +146,8 @@ def place_order(product_id, side, time_in_force, price, size,
     path = "/mm/api/orders?%s&signature=%s" % (args_str, signature)
     url = "%s%s" % (domain_url, path)
     resp = requests.post(url, headers=headers)
-    print(resp.text)
-    return resp.json().get("Id")
+    print(resp.json())
+    return resp.json()
 
 
 def cancel_order(product_id, order_id):
@@ -162,7 +168,8 @@ def cancel_order(product_id, order_id):
     path = "/mm/api/order?%s&signature=%s" % (args_str, signature)
     url = "%s%s" % (domain_url, path)
     resp = requests.delete(url, headers=headers)
-    print(resp.text)
+    print(resp.json())
+    return resp.json()
 
 
 def cancel_orders(product_id):
@@ -182,7 +189,8 @@ def cancel_orders(product_id):
     path = "/mm/api/orders?%s&signature=%s" % (args_str, signature)
     url = "%s%s" % (domain_url, path)
     resp = requests.delete(url, headers=headers)
-    print(resp.text)
+    print(resp.json())
+    return resp.json()
 
 
 def list_orders(product_id, start_time, end_time, limit):
@@ -205,7 +213,8 @@ def list_orders(product_id, start_time, end_time, limit):
     path = "/mm/api/orders?%s&signature=%s" % (args_str, signature)
     url = "%s%s" % (domain_url, path)
     resp = requests.get(url, headers=headers)
-    print(resp.text)
+    print(resp.json())
+    return resp.json()
 
 
 def get_order(product_id, order_id):
@@ -226,7 +235,8 @@ def get_order(product_id, order_id):
     path = "/mm/api/order?%s&signature=%s" % (args_str, signature)
     url = "%s%s" % (domain_url, path)
     resp = requests.get(url, headers=headers)
-    print(resp.text)
+    print(resp.json())
+    return resp.json()
 
 
 def list_open_orders(product_id, limit):
@@ -247,7 +257,8 @@ def list_open_orders(product_id, limit):
     path = "/mm/api/openOrders?%s&signature=%s" % (args_str, signature)
     url = "%s%s" % (domain_url, path)
     resp = requests.get(url, headers=headers)
-    print(resp.text)
+    print(resp.json())
+    return resp.json()
 
 
 def accounts_info():
@@ -266,18 +277,29 @@ def accounts_info():
     path = "/mm/api/accounts?%s&signature=%s" % (args_str, signature)
     url = "%s%s" % (domain_url, path)
     resp = requests.get(url, headers=headers)
-    print(resp.text)
+    print(resp.json())
+    return resp.json()
+
+
+def get_product_by_id(product_id):
+    for p in products_info():
+        if p.get('id') == product_id:
+            return p
+    return None
 
 
 if __name__ == "__main__":
     server_info()
     products_info()
+    eth_usd_product = get_product_by_id('wETH-USD')
     get_jwt_token()
-    get_self_info()
+    self_info = get_self_info()
     slots = get_slot_batchly(5)
-    order_id = place_order("wETH-USD", "BUY", "GTC", 300.0, 1.0, 10, 5, slots[0]["slot"], slots[0]["nonce"])
-    cancel_order("wETH-USD", order_id)
+    order = place_order(self_info.get('l2userId'), eth_usd_product, "BUY", "GTC", 300.0, 1.0, 10, 5, slots[0]["slot"],
+                        slots[0]["nonce"])
+    print(order.get('Id'))
+    cancel_order("wETH-USD", order.get('Id'))
     list_orders("wETH-USD", 0, int(time.time()), 10)
-    get_order("wETH-USD", order_id)
+    get_order("wETH-USD", order.get('Id'))
     list_open_orders("wETH-USD", 10)
     accounts_info()
