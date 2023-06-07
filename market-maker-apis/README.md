@@ -240,7 +240,7 @@
       "Side": "buy",
       "TimeInForce": "GTC",     
       "Status": "new",
-      "L2Status": "new",                # none: init status          confirming:The order is fully filled, but not confirmed by layer2      filled:The order is fully filled, and confirmed by layer2      cancelled:The                                               order has been cancelled, and cancelled in layer2
+      "L2Status": "new",                # none: init status          confirming:The order is fully filled, but not confirmed by layer2      filled:The order is fully filled, and confirmed by layer2      cancelled:The  order has been cancelled, and cancelled in layer2
       "PreSettled": false,
       "Settled": false
     }   
