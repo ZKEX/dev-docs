@@ -224,7 +224,7 @@
       
     ```json
     {
-      "id": 39,
+      "id": "1666371045063401472",
       "createdAt": 1650958799,
       "updatedAt": 1650958799,
       "productId": "UNI-USDT",
@@ -316,7 +316,7 @@
       {
         "total": 1000,
         "orders": [{
-          "id": "28",          # order id
+          "id": "1666371045063401472",          # order id
           "userId": "28",      # user id
           "price": "9000000000000000",         
           "size": "2500000000",           
@@ -338,8 +338,8 @@
            "time": 1650958799,
            "tradeSeq": 231628,
            "price": "9000000000000000",
-           "takerOrderId": 3,
-           "makerOrderId": 4,
+           "takerOrderId": "1666371045063401472",
+           "makerOrderId": "1666371045063401471",
            "size": "100000",
            "side": "buy",
            "status": 3,    # 0:not sent to layer2      1:sent to layer2      2:layer2 success    3:layer2 fail      9:matching fail(not sent to layer2)
@@ -351,8 +351,8 @@
            "time": 1650958799,
            "tradeSeq": 231627,
            "price": "9000000000000000",
-           "takerOrderId": 3,
-           "makerOrderId": 4, 
+           "takerOrderId": "1666371045063401473",
+           "makerOrderId": "1666371045063401474", 
            "size": "100000",
            "side": "buy",
            "status": 3,
@@ -368,7 +368,7 @@
           }
           "isFullFill": true,   # If isFullFill is true, it means that the order has actually been filled completely. But `trade.status` may not be `filled` , but it will eventually become filled.
          }, {
-          "id": "27",
+          "id": "1666371045063401471",
           "userId": "28",      # user id
           "price": "8000000000000000",
           "size": "2500000000",
@@ -389,8 +389,8 @@
            "time": 1650958799,
            "tradeSeq": 231628,
            "price": "8000000000000000",
-           "takerOrderId": 3,
-           "makerOrderId": 4,
+           "takerOrderId": "1666371045063401471",
+           "makerOrderId": "1666371045063401472",
            "size": "100000",
            "side": "buy",
            "status": 3,
@@ -402,8 +402,8 @@
            "time": 1650958799,
            "tradeSeq": 231627,
            "price": "8000000000000000",
-           "takerOrderId": 3,
-           "makerOrderId": 4,
+           "takerOrderId": "1666371045063401473",
+           "makerOrderId": "1666371045063401474",
            "size": "100000",
            "side": "buy",
            "status": 3,
@@ -449,7 +449,7 @@
   
       ```json
       {
-          "id": "755",    
+          "id": "1666371045063401472",    
           "userId": "28",
           "price": "9000000000000000",            
           "size": "2500000000",                
@@ -471,8 +471,8 @@
            "time": 1650958799,
            "tradeSeq": 231628,
            "price": "9000000000000000",
-           "takerOrderId": 3,
-           "makerOrderId": 4,
+           "takerOrderId": "1666371045063401473",
+           "makerOrderId": "1666371045063401474",
            "size": "100000",
            "side": "buy",
            "status": 3,
@@ -484,8 +484,8 @@
            "time": 1650958799,
            "tradeSeq": 231627,
            "price": "9000000000000000",
-           "takerOrderId": 3,
-           "makerOrderId": 4, 
+           "takerOrderId": "1666371045063401472",
+           "makerOrderId": "1666371045063401471", 
            "size": "100000",
            "side": "buy",
            "status": 3,
@@ -967,8 +967,8 @@
    "productId": "UNI-USDC",
    "price": "900000000000",
    "size": "1000000000",
-   "makerOrderId": "45",     # maker's order id
-   "takerOrderId": "51",     # taker's order id
+   "makerOrderId": "1666371045063401472",     # maker's order id
+   "takerOrderId": "1666371045063401471",     # taker's order id
    "side": "sell"
   }
   ```
@@ -987,8 +987,8 @@
    "productId": "UNI-USDC",
    "price": "900000000000",
    "size": "1000000000",
-   "makerOrderId": "45",     # maker's order id
-   "takerOrderId": "51",     # taker's order id
+   "makerOrderId": "1666371045063401472",     # maker's order id
+   "takerOrderId": "1666371045063401471",     # taker's order id
    "side": "sell",
    "status": 2
   }
