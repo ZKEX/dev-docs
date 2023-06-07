@@ -224,25 +224,25 @@
       
     ```json
     {
-      "Id": 39,
-      "CreatedAt": 1650958799,
-      "UpdatedAt": 1650958799,
-      "ProductId": "UNI-USDT",
-      "UserId": 1,
-      "ClientOid": "",
-      "Size": "1000000000000000000",        
-      "Funds": "70000000",
-      "FilledSize": "0",
-      "ExecutedValue": "0", 
-      "Price": "70000000", 
-      "FillFees": "0",
-      "Type": "limit",
-      "Side": "buy",
-      "TimeInForce": "GTC",     
-      "Status": "new",
-      "L2Status": "none",
-      "PreSettled": false,
-      "Settled": false
+      "id": 39,
+      "createdAt": 1650958799,
+      "updatedAt": 1650958799,
+      "productId": "UNI-USDT",
+      "userId": 1,
+      "clientOid": "",
+      "size": "1000000000000000000",        
+      "funds": "70000000",
+      "filledSize": "0",
+      "executedValue": "0", 
+      "price": "70000000", 
+      "fillFees": "0",
+      "type": "limit",
+      "side": "buy",
+      "timeInForce": "GTC",     
+      "status": "new",
+      "l2Status": "none",
+      "preSettled": false,
+      "settled": false
     }   
     ```
 
