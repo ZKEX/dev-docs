@@ -896,6 +896,7 @@
     {
      "type": "l2update",
      "productId": "UNI-USDC",
+     "time": 1686645711,
      "changes": [
        [
          "sell",
