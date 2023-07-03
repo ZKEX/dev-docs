@@ -1004,6 +1004,7 @@
   ```json
   {
    "userId": 1,
+   "clientOid": "1234",
    "type": "order",
    "sequence": 0,
    "id": "50",
