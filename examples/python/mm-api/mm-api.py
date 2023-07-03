@@ -297,9 +297,9 @@ if __name__ == "__main__":
     slots = get_slot_batchly(5)
     order = place_order(self_info.get('l2userId'), eth_usd_product, "BUY", "GTC", 300.0, 1.0, 10, 5, slots[0]["slot"],
                         slots[0]["nonce"])
-    print(order.get('Id'))
-    cancel_order("wETH-USD", order.get('Id'))
+    print(order.get('id'))
+    cancel_order("wETH-USD", order.get('id'))
     list_orders("wETH-USD", 0, int(time.time()), 10)
-    get_order("wETH-USD", order.get('Id'))
+    get_order("wETH-USD", order.get('id'))
     list_open_orders("wETH-USD", 10)
     accounts_info()
