@@ -202,6 +202,7 @@
   
     | **_Name_**  	| **_Type_** 	| **_Required_** 	| **_Example_**        	| **_Description_**      	|
     |-------------	|:----------:	|:--------------:	|----------------------	|------------------------	|
+    | clientOid     |   string   	|       NO      	| 1234                	| The order id from client|
     | symbol      	|   string   	|       YES      	| UNI-USDC             	| The trading pair name  	|
     | side        	|   string   	|       YES      	| SELL                 	| SELL/BUY               	|
     | type        	|   string   	|       YES      	| LIMIT                	| only support LIMIT now 	|
@@ -229,7 +230,7 @@
       "updatedAt": 1650958799,
       "productId": "UNI-USDT",
       "userId": 1,
-      "clientOid": "",
+      "clientOid": "1234",
       "size": "1000000000000000000",        
       "funds": "70000000",
       "filledSize": "0",
@@ -1003,6 +1004,7 @@
   ```json
   {
    "userId": 1,
+   "clientOid": "1234",
    "type": "order",
    "sequence": 0,
    "id": "50",
