@@ -94,7 +94,7 @@ def get_slot_batchly(cnt):
 
 
 def place_order(acct_id, product, side, time_in_force, price, size,
-                taker_fee_ratio, maker_fee_ratio, slot, nonce):
+                taker_fee_ratio, maker_fee_ratio, slot, nonce, client_oid=""):
     assert side in ("BUY", "SELL")
     assert time_in_force in ("GTC", "IOC", "FOK", "GTX")
 
@@ -134,6 +134,9 @@ def place_order(acct_id, product, side, time_in_force, price, size,
         "userPubkey": pubkey_hex[2:] if pubkey_hex[0:2] == "0x" else pubkey_hex,
         "orderSignature": order_signature_hex[2:] if order_signature_hex[0:2] == "0x" else order_signature_hex
     }
+    if len(client_oid) > 0:
+        args["clientOid"] = client_oid
+
     headers = {
         "X-MBX-APIKEY": api_key
     }
