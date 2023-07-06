@@ -304,6 +304,7 @@
     |-------------	|:----------:	|:--------------:	|----------------------	|------------------------	|
     | timestamp   	|    long    	|       YES      	| 1654060757           	| unix timestamp         	|
     | symbol      	|   string   	|       YES      	| UNI-USDC             	| The trading pair name  	|
+    | status      	|   string   	|       NO      	| filled            	  | The order status  	|
     | startTime        	|   long   	|       YES      	| 1                 	|                	|
     | endTime        	|   long   	|       YES      	| 1654063467                	| 	|
     | limit 	|   int   	|       YES      	| 20                  	|                	|
