@@ -331,7 +331,7 @@
           "filledSize": "200000000",                 # The actual transaction quantity of the order
           "executedValue": "1800000",              # The actual transaction value of the order
           "status": "open",                   #order status   `new`, `open`,  `filled`, `cancelled`, `cancelling`, `partial`
-          "l2Status": "none",                 #order layer2 status   `none`: init status          `confirming`:The order is fully filled, but not confirmed by layer2      `filled`:The order is fully filled, and confirmed by layer2      `cancelled`:The order has been cancelled, and cancelled in layer2
+          "l2Status": "none",                 #order layer2 status   `none`: init status          `confirming`:The order is fully filled, but not confirmed by layer2      `filled`:The order is fully filled, and confirmed by layer2      `cancelled`:The order has been cancelled, and cancelled in layer2          `partial`:The order is partial filled, and confirmed by layer2
           "preSettled": false,
           "settled": false,
           "chanFrom": 0,             #     0 : user order       1 : market maker order
