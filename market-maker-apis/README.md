@@ -291,7 +291,7 @@
 
 <span id="mmgetorders"></span>
 * Get all orders
-  * Get all orders, includes `new`, `open`,  `filled`, `cancelled`, `cancelling`
+  * Get all orders, includes `new`, `open`,  `filled`, `cancelled`, `cancelling`, `partial`
   * HTTP Method: `GET`
   * HTTP PATH: `/mm/api/orders`   (HMAC SHA256)
   
@@ -330,7 +330,7 @@
           "fillFees": "0",              
           "filledSize": "200000000",                 # The actual transaction quantity of the order
           "executedValue": "1800000",              # The actual transaction value of the order
-          "status": "open",                   #order status   `new`, `open`,  `filled`, `cancelled`, `cancelling`
+          "status": "open",                   #order status   `new`, `open`,  `filled`, `cancelled`, `cancelling`, `partial`
           "l2Status": "none",                 #order layer2 status   `none`: init status          `confirming`:The order is fully filled, but not confirmed by layer2      `filled`:The order is fully filled, and confirmed by layer2      `cancelled`:The order has been cancelled, and cancelled in layer2
           "preSettled": false,
           "settled": false,
@@ -1019,7 +1019,7 @@
    "fillFees": "0",         # fee (calculated in quote tokens)
    "filledSize": "0",       # number of successfully matched (calculated in base tokens)
    "executedValue": "0",     # value of successfully matched (calculated in quote tokens)
-   "status": "new",      # order status:   `new`, `open`, `filled`, `cancelled`, `cancelling` 
+   "status": "new",      # order status:   `new`, `open`, `filled`, `cancelled`, `cancelling`, `partial`
    "settled": false,     # whether the matching was successful
    "timeInForce": "GTC"     
   }
