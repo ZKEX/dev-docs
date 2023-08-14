@@ -32,7 +32,7 @@
   * [Push K-line data of any pair](#push-candles)
   * [Push ticker infomation of any pair](#push-ticker)
   * [Push matching infomation of an account](#push-match)
-  * [Push trading infomation](#push-trade)
+  * [Push trading infomation](#push-)
   * [Push order change infomation of a trading pair](#push-order)
   * [Push the asset change infomation of an account](#push-funds)
 
@@ -347,7 +347,8 @@
            "status": 3,    # 0:not sent to layer2      1:sent to layer2      2:layer2 success    3:layer2 fail      9:matching fail(not sent to layer2)
            "productId": "UNI-USDT",
            "funds": "900",
-           "txHash": "0x40acae664609d1115f5ab32d9f3c0fedd7609daa6a4a5515333f583fba10f545"
+           "txHash": "0x40acae664609d1115f5ab32d9f3c0fedd7609daa6a4a5515333f583fba10f545",
+           "failReason": ""
           }, {
            "id": 2,
            "time": 1650958799,
@@ -360,7 +361,8 @@
            "status": 3,
            "productId": "UNI-USDT",
            "funds": "900",
-           "txHash": "0x40acae664609d1115f5ab32d9f3c0fedd7609daa6a4a5515333f583fba10f545"
+           "txHash": "0x40acae664609d1115f5ab32d9f3c0fedd7609daa6a4a5515333f583fba10f545",
+           "failReason": ""
           }],
           "cancelFill": {
            "id": 1,
@@ -398,7 +400,8 @@
            "status": 3,
            "productId": "UNI-USDT",
            "funds": "900",
-           "txHash": "0x40acae664609d1115f5ab32d9f3c0fedd7609daa6a4a5515333f583fba10f545"
+           "txHash": "0x40acae664609d1115f5ab32d9f3c0fedd7609daa6a4a5515333f583fba10f545",
+           "failReason": ""
           }, {
            "id": 2,
            "time": 1650958799,
@@ -411,7 +414,8 @@
            "status": 3,
            "productId": "UNI-USDT",
            "funds": "900",
-           "txHash": "0x40acae664609d1115f5ab32d9f3c0fedd7609daa6a4a5515333f583fba10f545"
+           "txHash": "0x40acae664609d1115f5ab32d9f3c0fedd7609daa6a4a5515333f583fba10f545",
+           "failReason": ""
           }]
           "cancelFill": {
            "id": 1,
@@ -480,7 +484,8 @@
            "status": 3,
            "productId": "UNI-USDT",
            "funds": "900",
-           "txHash": "0x40acae664609d1115f5ab32d9f3c0fedd7609daa6a4a5515333f583fba10f545"  
+           "txHash": "0x40acae664609d1115f5ab32d9f3c0fedd7609daa6a4a5515333f583fba10f545",
+           "failReason": ""  
           }, {
            "id": 2,
            "time": 1650958799,
@@ -493,7 +498,8 @@
            "status": 3,
            "productId": "UNI-USDT",
            "funds": "900",
-           "txHash": "0x40acae664609d1115f5ab32d9f3c0fedd7609daa6a4a5515333f583fba10f545"
+           "txHash": "0x40acae664609d1115f5ab32d9f3c0fedd7609daa6a4a5515333f583fba10f545",
+           "failReason": ""
           }],
           "cancelFill": {
            "id": 1,
@@ -993,7 +999,8 @@
    "makerOrderId": "1666371045063401472",     # maker's order id
    "takerOrderId": "1666371045063401471",     # taker's order id
    "side": "sell",
-   "status": 2
+   "status": 2,
+   "failReason": ""
   }
   ```
 -------------------------------
